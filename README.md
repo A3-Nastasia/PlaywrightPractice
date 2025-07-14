@@ -2,14 +2,32 @@
 
 ## Установка
 ```
-dotnet add package Microsoft.Playwright
+$ dotnet add package Microsoft.Playwright
 ```
+
+Чтобы использовать, например на Linux, надо установить глобальную переменную, чтобы команда распознавалась:
+```
+$ dotnet tool install --global Microsoft.Playwright.CLI
+
+$ playwright install [browser_for_optional_install]
+```
+
+Отменить:
+```
+$ dotnet tool uninstall -g Microsoft.Playwright.CLI
+```
+
+Для использования `Playwright`, по идее, нужен `PowerShell`. Его файл можно найти в проекте по пути `./bin/Debug/net9.0/playwright.ps1`.
+
+`PowerShell` можно установить на `Linux`. Инструкцию можно найти на официальном сайте Microsoft.
+
+
 
 ### Отличия от Selenium
 |Playwright|Selenium|
 |-|-|
 |Встроенная поддержка браузеров (Chromium, Firefox, WebKit) из "коробки"|Нужны отдельные драйвера, но поддерживает много браузеров|
-|Сразу готов после установки|Нужны драйверы|
+|Сразу готов после установки (нужно будет выполнить несколько команд по настройке и установке)|Нужны драйверы|
 |C#, JS, TS, Java, Python|Широкий спектр языков программирования|
 |Быстрее|Медленнее|
 |Классическая автоматизация браузеров|Перехват запросов, мокирование, несколько контекстов браузера, изоляция тестов|
@@ -26,3 +44,4 @@ dotnet add package Microsoft.Playwright
     await playwright.Devices["Phone_model"]
     ```
 - Немного непривычное использование `async` `await` исходя из документации, но это дело практики
+
