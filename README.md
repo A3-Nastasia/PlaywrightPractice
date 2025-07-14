@@ -17,11 +17,13 @@ $ playwright install [browser_for_optional_install]
 $ dotnet tool uninstall -g Microsoft.Playwright.CLI
 ```
 
+Другой вариант:
+
 Для использования `Playwright`, по идее, нужен `PowerShell`. Его файл можно найти в проекте по пути `./bin/Debug/net9.0/playwright.ps1`.
 
 `PowerShell` можно установить на `Linux`. Инструкцию можно найти на официальном сайте Microsoft.
 
-
+Но с командами выше на Linux все работает прекрасно.
 
 ### Отличия от Selenium
 |Playwright|Selenium|
