@@ -5,6 +5,11 @@
 $ dotnet add package Microsoft.Playwright
 ```
 
+Для использования тестов:
+```
+$ dotnet add package Microsoft.Playwright.NUnit
+```
+
 Чтобы использовать, например на Linux, надо установить глобальную переменную, чтобы команда распознавалась:
 ```
 $ dotnet tool install --global Microsoft.Playwright.CLI
@@ -32,11 +37,11 @@ Playwright обеспечивает кросс-платформенную под
 
 Если посмотреть через терминал Linux (поиск этой команды в файле):
 ```
-ls -l $(which pwsh)
+$ ls -l $(which pwsh)
 
 или для конкретики
 
-ls -l path $(which pwsh)
+$ ls -l path $(which pwsh)
 
 где path - путь, например, из playwright.ps1 комментария.
 ```
@@ -58,12 +63,22 @@ ls -l path $(which pwsh)
 ### Что по практике
 
 - Очень удобная документация в подсказках в `Visual Studio`:
-    - Описание того, что делает
+    - Описание того, что делает.
     - Блок кода для примера (очень интересный формат, like it)
     ```cs
     // при выборе в быстром меню будет небольшое описание и пример блока кода
     // сам Devices нужен для использования эмуляции устройства 
     await playwright.Devices["Phone_model"]
     ```
-- Немного непривычное использование `async` `await` исходя из документации, но это дело практики
+- Немного непривычное использование `async` `await` исходя из документации, но это дело практики.
 
+```
+dotnet list package
+```
+
+|||
+|-|-|
+|Microsoft.Playwright|1.53.0|
+|Microsoft.NET.Test.Sdk|17.14.1|
+|NUnit3TestAdapter|5.0.0|
+|NUnit|4.3.2|
