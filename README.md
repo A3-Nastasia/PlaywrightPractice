@@ -1,28 +1,28 @@
 # Playwright
 
-## Установка
+### Установка
 ```
 $ dotnet add package Microsoft.Playwright
 ```
 
-Для использования тестов:
+### Установка библиотек для использования тестов:
 ```
 $ dotnet add package Microsoft.Playwright.NUnit
 ```
 
-Чтобы использовать, например на Linux, надо установить глобальную переменную, чтобы команда распознавалась:
+### Чтобы использовать, например на Linux, надо установить глобальную переменную, чтобы команда распознавалась:
 ```
 $ dotnet tool install --global Microsoft.Playwright.CLI
 
 $ playwright install [browser_for_optional_install]
 ```
 
-Отменить:
+### Отменить установку глобальной переменной:
 ```
 $ dotnet tool uninstall -g Microsoft.Playwright.CLI
 ```
 
-Другой вариант:
+### PowerShell & Linux
 
 Для использования `Playwright`, по идее, нужен `PowerShell`. Его файл можно найти в проекте по пути `./bin/Debug/net9.0/playwright.ps1`. Устанавливает поддержку браузеров для библиотеки.
 
@@ -50,6 +50,24 @@ $ ls -l path $(which pwsh)
 Проще говоря, эта строка в файле `playwright.ps1` - **Shebang** - инструкция, которая говорит ОС о том, какой интерпретатор использовать.
 
 
+---
+
+### Запуск сразу через CLI с выбранным браузером:
+```
+$ dotnet test -- Playwright.BrowserName=firefox
+```
+
+### Запуск с разными опциями:
+```
+$ dotnet test -- Playwright.BrowserName=firefox Playwright.LaunchOptions.Channel=firefox
+```
+- `--` - разграничитель.
+   - Все, что **до** него, - это `dotnet test`.
+   - Все, что **после** него, - это команды `Playwright`.
+- `Playwright.BrowserName=firefox` - какой браузер использовать.
+- `Playwright.LaunchOptions.Channel=firefox` - использовать конкретную сборку.
+---
+
 ### Отличия от Selenium
 |Playwright|Selenium|
 |-|-|
@@ -71,7 +89,9 @@ $ ls -l path $(which pwsh)
     await playwright.Devices["Phone_model"]
     ```
 - Немного непривычное использование `async` `await` исходя из документации, но это дело практики.
+- Использовать `PageTest` для Linux проблематично.
 
+### Список библиотек:
 ```
 dotnet list package
 ```
