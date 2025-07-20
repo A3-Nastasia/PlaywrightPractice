@@ -63,7 +63,7 @@ $ dotnet test -- Playwright.BrowserName=firefox Playwright.LaunchOptions.Channel
 ```
 - `--` - разграничитель.
    - Все, что **до** него, - это `dotnet test`.
-   - Все, что **после** него, - это команды `Playwright`.
+   - Все, что **после** него, - это `Playwright`.
 - `Playwright.BrowserName=firefox` - какой браузер использовать.
 - `Playwright.LaunchOptions.Channel=firefox` - использовать конкретную сборку.
 ---
