@@ -1,58 +1,57 @@
 using Microsoft.Playwright;
-using NUnit.Framework;
 
-namespace PlaywrightPractice
-
-// [Parallelizable(ParallelScope.Self)] - It's better to not use it if there is a _browser below
-// (I'm using it to select Firefox for Playwright)
-// For example there is a test GetStartedLink that can fail because of this
-// Since this Task is opening in a parallel mode it can cause errors and fail some tests
-// To use Parallelizable you should use browser's context for better isolation
-
-[Parallelizable(ParallelScope.All)]
-[TestFixture]
-public class ExampleTest
+public class PlaywrightPage
 {
-    private static IPlaywright _playwright;
-    private static IBrowser _browser;
-    private string url = "https://playwright.dev";
+    private readonly IPage _page;
+    private readonly ILocator _searchButton;
+    private readonly ILocator _searchField;
+    private readonly ILocator _searchListItem;
+    private readonly ILocator _titleLocators;
 
-    [OneTimeSetUp]
-    public async Task OneTimeSetup()
+    public PlaywrightPage(IPage page)
     {
-        _playwright = await Playwright.CreateAsync();
-        _browser = await _playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
+        _page = page;
+
+        _searchButton = page.Locator("DocSearch-Button");
+        _searchField = page.Locator("#docsearch-input");
+        _searchListItem = page.Locator("//*[@id=\"docsearch-hits0-item-0\"]/a/div", new PageLocatorOptions
+        {
+            HasTextString = "Locators"
+        });
+
+        _titleLocators = page.Locator("//*[@id=\"__docusaurus_skipToContent_fallback\"]/div/div/main/div/div/div[1]/div/article/div[2]/header/h1");
     }
 
-    [OneTimeTearDown]
-    public async Task OneTimeTeardown()
+    public async Task GotoAsync()
     {
-        await _browser.CloseAsync();
-        _playwright.Dispose();
+        await _page.GotoAsync("/", new PageGotoOptions
+        {
+            Timeout = 60000
+        });
+    }
+    
+    public string GetCurrentUrl() => _page.Url;
+
+    public async Task SearchFieldEnterLocator(string text)
+    {
+        await _searchButton.ClickAsync();
+        await _searchField.TypeAsync(text, new()
+        {
+            Delay = 100    
+        });
+
+        await _searchListItem.WaitForAsync();
+        await _searchListItem.ClickAsync();
+
     }
 
-    [Test]
-    public async Task HasTitle()
+    public async Task<string> LocatorPageGetTitle()
     {
-        await using var context = await _browser.NewContextAsync();
-        var page = await context.NewPageAsync();
+        await _titleLocators.WaitForAsync(new LocatorWaitForOptions
+        {
+            State = WaitForSelectorState.Visible
+        });
 
-        await page.GotoAsync(url);
-
-        Assert.That(await page.TitleAsync(), Does.Contain("Playwright"));
+        return await _titleLocators.TextContentAsync();
     }
-
-    [Test]
-    public async Task GetStartedLink()
-    {
-        await using var context = await _browser.NewContextAsync();
-        var page = await context.NewPageAsync();
-
-        await page.GotoAsync(url);
-
-        await page.GetByRole(AriaRole.Link, new() { Name = "Get started" }).ClickAsync();
-
-        var heading = page.GetByRole(AriaRole.Heading, new() { Name = "Installation" });
-        Assert.That(await heading.IsVisibleAsync(), Is.True);
-    } 
 }
